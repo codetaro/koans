@@ -93,6 +93,18 @@ fun printHello(name: String?) {
 
 fun double(x: Int) = x * 2
 
+tailrec fun findFixPoint(x: Double = 1.0): Double
+        = if (x == Math.cos(x)) x else findFixPoint(Math.cos(x))
+
+private fun findFixPoint2(): Double {
+    var x = 1.0
+    while (true) {
+        val y = Math.cos(x)
+        if (x == y) return x
+        x = y
+    }
+}
+
 fun main(args: Array<String>) {
     /*println("x = $x; PI = $PI")
     incrementX()
@@ -113,10 +125,12 @@ fun main(args: Array<String>) {
             .map { it.toUpperCase() }
             .forEach { println(it) }*/
 
-    val rectangle = Rectangle(5.0, 2.0)  //no 'new' keyword required
+    /*val rectangle = Rectangle(5.0, 2.0)  //no 'new' keyword required
     val triangle = Triangle(3.0, 4.0 ,5.0)
     println("Area of rectangle is ${rectangle.calculateArea()}, its perimeter is ${rectangle.perimeter}")
-    println("Area of triangle is ${rectangle.calculateArea()}, its perimeter is ${triangle.perimeter}")
+    println("Area of triangle is ${rectangle.calculateArea()}, its perimeter is ${triangle.perimeter}")*/
+
+    print(findFixPoint())
 }
 
 abstract class Shape(val sides: List<Double>) {
