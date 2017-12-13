@@ -60,13 +60,89 @@ fun printProduct2(arg1: String, arg2: String) {
     println(x * y)
 }
 
+fun getStringLength(obj: Any): Int? {
+    if (obj is String && obj.length > 0) {
+        return obj.length
+    }
+
+    return null
+}
+
+fun describe(obj: Any): String =
+when (obj) {
+    1           -> "One"
+    "Hello"     -> "Greeting"
+    is Long     -> "Long"
+    !is String  -> "Not a string"
+    else        -> "Unknown"
+}
+
+//fun joinToString(
+//        separator: String = ", ",
+//        prefix: String = "",
+//        postfix: String = "",
+//        /* ... */
+//): String
+
+fun printHello(name: String?) {
+    if (name != null)
+        println("Hello ${name}")
+    else
+        println("Hi there!")
+}
+
+fun double(x: Int) = x * 2
+
 fun main(args: Array<String>) {
     /*println("x = $x; PI = $PI")
     incrementX()
     println("incrementX()")
     println("x = $x; PI = $PI")*/
 
-    printProduct2("6", "7")
-    printProduct2("a", "7")
-    printProduct2("a", "b")
+    /*fun printLength(obj: Any) {
+        println("'$obj' string length is ${getStringLength(obj) ?: "... err, not a string"} ")
+    }
+    printLength("Incomprehensibilities")
+    printLength(1000)
+    printLength(listOf(Any()))*/
+
+    /*val fruits = listOf("banana", "avocado", "apple", "kiwi")
+    fruits
+            .filter { it.startsWith("a") }
+            .sortedBy { it }
+            .map { it.toUpperCase() }
+            .forEach { println(it) }*/
+
+    val rectangle = Rectangle(5.0, 2.0)  //no 'new' keyword required
+    val triangle = Triangle(3.0, 4.0 ,5.0)
+    println("Area of rectangle is ${rectangle.calculateArea()}, its perimeter is ${rectangle.perimeter}")
+    println("Area of triangle is ${rectangle.calculateArea()}, its perimeter is ${triangle.perimeter}")
+}
+
+abstract class Shape(val sides: List<Double>) {
+    val perimeter: Double get() = sides.sum()
+    abstract fun calculateArea(): Double
+}
+
+interface RectangleProperties {
+    val isSquare: Boolean
+}
+
+class Rectangle(
+        var height: Double,
+        var length: Double
+) : Shape(listOf(height, length, height, length)), RectangleProperties {
+    override val isSquare: Boolean get() = length == height
+    override fun calculateArea(): Double = height * length
+}
+
+class Triangle(
+        var sideA: Double,
+        var sideB: Double,
+        var sideC: Double
+) : Shape(listOf(sideA, sideB, sideC)) {
+    override fun calculateArea(): Double {
+        val s = perimeter / 2
+        return Math.sqrt(s * (s - sideA) * (s - sideB) * (s - sideC))
+    }
 }
